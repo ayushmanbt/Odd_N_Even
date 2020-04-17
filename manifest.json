@@ -1,0 +1,58 @@
+{
+  "name": "Odd n Even",
+  "short_name": "Odd n Even",
+  "description": "A simple game where given a number you will have to guess tell if it is odd or even by swiping. A fun, challenging game",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#87a8a7",
+  "theme_color": "#028a72",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/maskable_icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/72X72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/icons/96X96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/icons/128X128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/icons/144X144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "./icons/152X152.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "./icons/192X192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/384X384.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "/icons/512X512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

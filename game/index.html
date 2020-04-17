@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="manifest" href="../manifest.json" />
+
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="/icons/72x72.png" />
+    <link rel="apple-touch-icon" href="/icons/96x96.png" />
+    <link rel="apple-touch-icon" href="/icons/128x128.png" />
+    <link rel="apple-touch-icon" href="/icons/144x144.png" />
+    <link rel="apple-touch-icon" href="/icons/152x152.png" />
+    <link rel="apple-touch-icon" href="/icons/192x192.png" />
+    <link rel="apple-touch-icon" href="/icons/384x384.png" />
+    <link rel="apple-touch-icon" href="/icons/512x512.png" />
+    <meta name="apple-mobile-web-app-status-bar" content="#028a72" />
+    <meta name="theme-color" content="#028a72" />
+
+    <!-- Some tags for web share -->
+    <meta
+      name="description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+
+    <meta
+      name="keywords"
+      content="game, odd even, touch game, android game, swipe game, odd even game"
+    />
+
+    <meta property="og:title" content="Odd N Even" />
+    <meta
+      property="og:description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+    <meta property="og:image" content="/icons/512x512.png" />
+
+    <meta name="twitter:title" content="Odd N Even" />
+    <meta
+      name="twitter:description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+    <meta property="twitter:image" content="/icons/512x512.png" />
+
+    <link rel="shortcut icon" href="../icons/bare_logo.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <title>Odd N Even</title>
+  </head>
+  <body class="dark">
+    <div id="pause_screen" class="full_screen_items">
+      <h2>PAUSED</h2>
+      <div class="buttons_holder">
+        <button
+          aria-placeholder="Play the game"
+          class="pause_button"
+          onclick="pauseGame()"
+          title="play the game?"
+          onmouseenter="playHoverSound()"
+        >
+          <span class="mdi mdi-play-circle"></span>
+          <span class="text">Play</span>
+        </button>
+        <button
+          aria-placeholder="Mute"
+          class="pause_button"
+          onclick="changeAudioStatus()"
+          onmouseenter="playHoverSound()"
+          title="mute"
+        >
+          <span class="mdi mdi-volume-source" id="mute_audio"></span>
+          <span class="text">Volume</span>
+        </button>
+      </div>
+      <div class="buttons_holder">
+        <a
+          href="/"
+          aria-placeholder="Main Menu"
+          class="pause_button"
+          title="main menu"
+        >
+          <span class="mdi mdi-exit-to-app"></span>
+          <span class="text">Main Menu</span>
+        </a>
+      </div>
+    </div>
+    <div id="game_over_screen" class="full_screen_items">
+      <h2>Game Over</h2>
+      <div id="highscore_container"></div>
+      <p class="play_again_text">Play again?</p>
+
+      <div class="buttons_holder">
+        <button
+          aria-placeholder="Replay the game"
+          class="pause_button"
+          onclick="replayGame()"
+          title="replay the game?"
+          onmouseenter="playHoverSound()"
+        >
+          <span class="mdi mdi-play-circle"></span>
+          <span class="text">Replay</span>
+        </button>
+      </div>
+      <div class="buttons_holder">
+        <button
+          aria-placeholder="Clear highscore"
+          class="pause_button"
+          onclick="clearHighScore()"
+          title="Remove Highscore"
+          onmouseenter="playHoverSound()"
+        >
+          <span class="mdi mdi-minus-circle"></span>
+          <span class="text">Reset Highscore</span>
+        </button>
+        <a
+          href="/"
+          aria-placeholder="Get to menu"
+          class="pause_button"
+          title="p=Get to menu"
+          onmouseenter="playHoverSound()"
+        >
+          <span class="mdi mdi-exit-to-app"></span>
+          <span class="text">Main Menu</span>
+        </a>
+      </div>
+      <p>Share your score:</p>
+      <div id="share_zone" class="buttons_holder"></div>
+    </div>
+    <nav>
+      <h2 class="score_holder">
+        <span class="mdi mdi-counter"></span> <span id="score"></span>
+      </h2>
+      <h2 class="time_holder">
+        <span class="mdi mdi-timer"></span>
+        <span id="time"></span>
+      </h2>
+      <div class="toggler_container">
+        <p>🌞</p>
+        <button class="toggle_button" onclick="toggleMode()">
+          <div class="round" id="toggle_indicator"></div>
+        </button>
+        <p>🌘</p>
+      </div>
+    </nav>
+    <div class="container">
+      <div id="number" class="number">
+        21
+      </div>
+
+      <button
+        aria-placeholder="Pause the game"
+        class="pause_button"
+        onclick="pauseGame()"
+      >
+        <span class="mdi mdi-pause-circle"></span>
+      </button>
+
+      <div class="buttons_container">
+        <button
+          class="arrow_left"
+          id="arrow_left"
+          onclick="answerHandle(ANSWER_OPTIONS.left)"
+        >
+          <span class="mdi mdi-arrow-left-bold"></span
+          ><span id="arrow_left_text">Odd&nbsp;</span>
+        </button>
+        <button
+          class="arrow_right"
+          id="arrow_left"
+          onclick="answerHandle(ANSWER_OPTIONS.right)"
+        >
+          <span id="arrow_right_text">Even</span
+          ><span class="mdi mdi-arrow-right-bold"></span>
+        </button>
+      </div>
+      <p class="footer">Made by Ayushman Bilas Thakur. &copy;2020</p>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
