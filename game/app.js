@@ -36,11 +36,14 @@ let url = location_split.join("/");
 url = url + "/";
 
 const share = () => {
-  navigator.share({
-    title: "Odd N Even: One of the coolest game in this universe",
-    text: `Can you beat my highscore of ${highscore} in Odd n Even a super fun casual game`,
-    url,
-  });
+  navigator
+    .share({
+      title: "Odd N Even: One of the coolest game in this universe",
+      text: `Can you beat my highscore of ${highscore} in Odd n Even a super fun casual game`,
+      url,
+    })
+    .then(() => console.log("successful"))
+    .catch((err) => console.log(err));
 };
 
 //audio related stuff
@@ -259,6 +262,8 @@ playArea.addEventListener("touchmove", (e) => {
 playArea.addEventListener("touchend", () => {
   if (touchMoveX < -1 * TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.left);
   else if (touchMoveX > TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.right);
+
+  touchMoveX = 0;
 });
 
 //keyboard inputs
