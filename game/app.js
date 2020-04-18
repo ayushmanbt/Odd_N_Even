@@ -330,8 +330,8 @@ const share = () => {
   navigator
     .share({
       title: "Odd N Even: One of the coolest game in this universe",
-      text: `Can you beat my highscore of ${highscore} in Odd n Even a super fun casual game`,
-      url,
+      text: `Can you beat my highscore of ${localHighScore} in Odd n Even a super fun casual game`,
+      url: url,
     })
     .then(() => console.log("successful"))
     .catch((err) => console.log(err));
