@@ -1,4 +1,4 @@
-const staticCacheName = "odd-n-even-v2";
+const staticCacheName = "odd-n-even-v3";
 
 const assets = [
   "/",

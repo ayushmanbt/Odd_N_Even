@@ -3,7 +3,7 @@
   "short_name": "Odd n Even",
   "description": "A simple game where given a number you will have to guess tell if it is odd or even by swiping. A fun, challenging game",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#87a8a7",
   "theme_color": "#028a72",
   "orientation": "portrait-primary",
