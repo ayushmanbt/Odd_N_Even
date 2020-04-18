@@ -210,6 +210,17 @@
           <span class="text">Install</span>
         </button>
         <button
+          aria-placeholder="Update"
+          class="pause_button"
+          onclick="changeAudioStatus()"
+          title="update"
+          onmouseenter="playHoverSound()"
+          id="update_button"
+        >
+          <span class="mdi mdi-cellphone-arrow-down"></span>
+          <span class="text">Update</span>
+        </button>
+        <button
           aria-placeholder="Mute"
           class="pause_button"
           onclick="changeAudioStatus()"
@@ -221,7 +232,7 @@
         </button>
       </div>
 
-      <p class="footer">Made by Ayushman Bilas Thakur. &copy;2020</p>
+      <p class="footer">&copy; Ayushman Bilas Thakur</p>
     </div>
 
     <script src="./mainMenu.js"></script>

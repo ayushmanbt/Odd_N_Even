@@ -163,20 +163,39 @@ const installApp = () => {
   });
 };
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js");
-}
+//serviceworker and stuff
+const updateButton = document.querySelector("#update_button");
+let newWorker;
+let refreshing;
 
-const forceSWupdate = () => {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-      for (let registration of registrations) {
-        registration.update();
-      }
+updateButton.style.display = "none";
+
+updateButton.addEventListener("click", () => {
+  newWorker.postMessage({ action: "skipWaiting" });
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").then((reg) => {
+    reg.addEventListener("updatefound", () => {
+      newWorker = reg.installing;
+      newWorker.addEventListener("statechange", () => {
+        switch (newWorker.state) {
+          case "installed":
+            if (navigator.serviceWorker.controller) {
+              updateButton.style.display = "block";
+            }
+            break;
+        }
+      });
     });
-  }
-};
+  });
+
+  navigator.serviceWorker.addEventListener("controllerchange", function () {
+    if (refreshing) return;
+    window.location.reload();
+    refreshing = true;
+  });
+}
 
 audioStatus();
 determineBodyClass();
-forceSWupdate();

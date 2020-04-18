@@ -19,10 +19,6 @@ const assets = [
 
 // install event
 self.addEventListener("install", (e) => {
-  //this is for auto deleting old cache and including new one
-  let keeping_list = [];
-  keeping_list.push(staticCacheName);
-
   e.waitUntil(
     caches.open(staticCacheName).then((cache) => {
       cache.addAll(assets);
@@ -41,6 +37,13 @@ self.addEventListener("activate", (e) => {
       );
     })
   );
+});
+
+//auto update event
+self.addEventListener("message", function (event) {
+  if (event.data.action === "skipWaiting") {
+    self.skipWaiting();
+  }
 });
 
 // fetch event

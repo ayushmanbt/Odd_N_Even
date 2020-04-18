@@ -35,17 +35,6 @@ location_split.pop();
 let url = location_split.join("/");
 url = url + "/";
 
-const share = () => {
-  navigator
-    .share({
-      title: "Odd N Even: One of the coolest game in this universe",
-      text: `Can you beat my highscore of ${highscore} in Odd n Even a super fun casual game`,
-      url,
-    })
-    .then(() => console.log("successful"))
-    .catch((err) => console.log(err));
-};
-
 //audio related stuff
 const bgm = new Audio("./audio/bgm.mp3");
 const successSound = new Audio("./audio/success.wav");
@@ -337,6 +326,17 @@ const clearHighScore = () => {
 };
 
 //sharing related stuff
+const share = () => {
+  navigator
+    .share({
+      title: "Odd N Even: One of the coolest game in this universe",
+      text: `Can you beat my highscore of ${highscore} in Odd n Even a super fun casual game`,
+      url,
+    })
+    .then(() => console.log("successful"))
+    .catch((err) => console.log(err));
+};
+
 const shareZone = document.querySelector("#share_zone");
 const updateShareZone = () => {
   if (navigator.share) {
