@@ -44,7 +44,7 @@ let wrongAnswers = window.localStorage.getItem("swipegame_wrong_answers")
 wrongAnswerDisplay.innerText = wrongAnswers;
 
 const audioButton = document.querySelector("#mute_audio");
-const hoverSound = new Audio("./game/audio/hover1.ogg");
+const hoverSound = new Audio("../audio/hover1.ogg");
 
 let muted = true;
 

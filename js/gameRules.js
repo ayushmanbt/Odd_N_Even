@@ -36,10 +36,10 @@ let url = location_split.join("/");
 url = url + "/";
 
 //audio related stuff
-const bgm = new Audio("./audio/bgm.mp3");
-const successSound = new Audio("./audio/success.wav");
-const errorSound = new Audio("./audio/error.wav");
-const hoverSound = new Audio("./audio/hover1.ogg");
+const bgm = new Audio("../audio/bgm.mp3");
+const successSound = new Audio("../audio/success.wav");
+const errorSound = new Audio("../audio/error.wav");
+const hoverSound = new Audio("../audio/hover1.ogg");
 
 bgm.volume = 0.2;
 
