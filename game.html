@@ -54,7 +54,7 @@
       href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Odd N Even</title>
   </head>
   <body class="dark">
@@ -63,19 +63,16 @@
       <div class="buttons_holder">
         <button
           aria-placeholder="Play the game"
-          class="pause_button"
-          onclick="pauseGame()"
+          class="pause_button pauser"
           title="play the game?"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-play-circle"></span>
           <span class="text">Play</span>
         </button>
         <button
+          id="volume_chnager"
           aria-placeholder="Mute"
           class="pause_button"
-          onclick="changeAudioStatus()"
-          onmouseenter="playHoverSound()"
           title="mute"
         >
           <span class="mdi mdi-volume-source" id="mute_audio"></span>
@@ -100,24 +97,22 @@
       <p class="play_again_text">Play again?</p>
 
       <div class="buttons_holder">
-        <button
+        <a
           aria-placeholder="Replay the game"
           class="pause_button"
-          onclick="replayGame()"
           title="replay the game?"
-          onmouseenter="playHoverSound()"
+          href="./index.html"
         >
           <span class="mdi mdi-play-circle"></span>
           <span class="text">Replay</span>
-        </button>
+        </a>
       </div>
       <div class="buttons_holder">
         <button
+          id="highscore_clearer"
           aria-placeholder="Clear highscore"
           class="pause_button"
-          onclick="clearHighScore()"
           title="Remove Highscore"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-minus-circle"></span>
           <span class="text">Reset Highscore</span>
@@ -127,7 +122,6 @@
           aria-placeholder="Get to menu"
           class="pause_button"
           title="p=Get to menu"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-exit-to-app"></span>
           <span class="text">Main Menu</span>
@@ -146,7 +140,7 @@
       </h2>
       <div class="toggler_container">
         <p>🌞</p>
-        <button class="toggle_button" onclick="toggleMode()">
+        <button class="toggle_button">
           <div class="round" id="toggle_indicator"></div>
         </button>
         <p>🌘</p>
@@ -157,34 +151,22 @@
         21
       </div>
 
-      <button
-        aria-placeholder="Pause the game"
-        class="pause_button"
-        onclick="pauseGame()"
-      >
+      <button aria-placeholder="Pause the game" class="pause_button pauser">
         <span class="mdi mdi-pause-circle"></span>
       </button>
 
       <div class="buttons_container">
-        <button
-          class="arrow_left"
-          id="arrow_left"
-          onclick="answerHandle(ANSWER_OPTIONS.left)"
-        >
+        <button class="arrow_left" id="arrow_left">
           <span class="mdi mdi-arrow-left-bold"></span
           ><span id="arrow_left_text">Odd&nbsp;</span>
         </button>
-        <button
-          class="arrow_right"
-          id="arrow_left"
-          onclick="answerHandle(ANSWER_OPTIONS.right)"
-        >
+        <button class="arrow_right" id="arrow_right">
           <span id="arrow_right_text">Even</span
           ><span class="mdi mdi-arrow-right-bold"></span>
         </button>
       </div>
       <p class="footer">Made by Ayushman Bilas Thakur. &copy;2020</p>
     </div>
-    <script src="app.js"></script>
+    <script src="./js/mainMenu.js"></script>
   </body>
 </html>
