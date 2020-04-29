@@ -89,29 +89,29 @@
           aria-placeholder="Play the game"
           class="pause_button"
           title="play the game?"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-play-circle"></span>
+          <span class="text">Play</span>
         </a>
 
         <button
           aria-placeholder="Get to the menu"
           class="pause_button"
-          onclick="hideStats()"
+          id="hide_stats_button"
           title="get to menu"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-exit-to-app"></span>
+          <span class="text">Main Menu</span>
         </button>
 
         <button
           aria-placeholder="Reset Stats"
           class="pause_button"
-          onclick="resetStats()"
+          id="delete_stats_button"
           title="get to menu"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-delete"></span>
+          <span class="text">Delete Stats</span>
         </button>
       </div>
     </div>
@@ -134,22 +134,23 @@
           aria-placeholder="Play the game"
           class="pause_button"
           title="play the game?"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-play-circle"></span>
+          <span class="text">Play</span>
         </a>
 
         <button
           aria-placeholder="Get to the menu"
           class="pause_button"
-          onclick="hideRules()"
+          id="hide_rules_button"
           title="get to menu"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-exit-to-app"></span>
+          <span class="text">Main Menu</span>
         </button>
       </div>
     </div>
+
     <nav>
       <h2 class="score_holder">
         <span class="mdi mdi-counter"></span> <span id="score">0</span>
@@ -160,7 +161,7 @@
       </h2>
       <div class="toggler_container">
         <p>🌞</p>
-        <button class="toggle_button" onclick="toggleMode()">
+        <button class="toggle_button">
           <div class="round" id="toggle_indicator"></div>
         </button>
         <p>🌘</p>
@@ -174,50 +175,29 @@
       />
 
       <div class="buttons_holder">
-        <a
-          class="pause_button"
-          href="./game.html"
-          onmouseenter="playHoverSound()"
+        <a class="pause_button" href="./game.html"
           ><span class="mdi mdi-play-circle"></span>
           <span class="text">Play</span></a
         >
-        <button
-          class="pause_button"
-          title="rules"
-          onclick="showRules()"
-          onmouseenter="playHoverSound()"
-        >
+        <button class="pause_button" title="rules" id="show_rules_button">
           <span class="mdi mdi-view-list"></span>
           <span class="text">Rules</span>
         </button>
-        <button
-          class="pause_button"
-          title="stats"
-          onclick="showStats()"
-          onmouseenter="playHoverSound()"
-        >
+        <button class="pause_button" title="stats" id="show_stats_button">
           <span class="mdi mdi-chart-bar"></span>
           <span class="text">Stats</span>
         </button>
       </div>
 
       <div class="buttons_holder">
-        <button
-          id="install_button"
-          class="pause_button"
-          title="Install"
-          onclick="installApp()"
-          onmouseenter="playHoverSound()"
-        >
+        <button id="install_button" class="pause_button" title="Install">
           <span class="mdi mdi-download"></span>
           <span class="text">Install</span>
         </button>
         <button
           aria-placeholder="Update"
           class="pause_button"
-          onclick="changeAudioStatus()"
           title="update"
-          onmouseenter="playHoverSound()"
           id="update_button"
         >
           <span class="mdi mdi-cellphone-arrow-down"></span>
@@ -226,9 +206,8 @@
         <button
           aria-placeholder="Mute"
           class="pause_button"
-          onclick="changeAudioStatus()"
+          id="mute_button"
           title="mute"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-volume-source" id="mute_audio"></span>
           <span class="text">Volume</span>

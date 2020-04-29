@@ -1,7 +1,12 @@
-const UI_MODES = {
-  light: 0,
-  dark: 1,
-};
+import { determineBodyClass, toggleTheme } from "./modules/themeHandling.js";
+
+const body = document.querySelector("body");
+
+determineBodyClass();
+
+document
+  .querySelector("#theme_toggler")
+  .addEventListener("click", toggleTheme());
 
 const ANSWER_MODES = {
   normal: 0,
@@ -15,10 +20,8 @@ const ANSWER_OPTIONS = {
 
 const UPPER_BOUND = 1000;
 
-const body = document.querySelector("body");
 const playArea = document.querySelector(".container");
 const scoreDisplay = document.querySelector("#score");
-const toggle_indicator = document.querySelector("#toggle_indicator");
 const numberDisplay = document.querySelector("#number");
 const leftTextContainer = document.querySelector("#arrow_left_text");
 const rightTextContainer = document.querySelector("#arrow_right_text");
@@ -27,6 +30,10 @@ const pauseScreen = document.querySelector("#pause_screen");
 const gameOverScreen = document.querySelector("#game_over_screen");
 const highscoreContainer = document.querySelector("#highscore_container");
 const muteAudioButtonIcon = document.querySelector("#mute_audio");
+
+document.querySelectorAll(".pause_button").forEach((element) => {
+  element.addEventListener("mouseenter", playHoverSound());
+});
 
 //this is our shareable url
 let location_split = window.location.href.split("/");
@@ -290,26 +297,8 @@ const answerHandle = (answerDirection) => {
   }
 };
 
-const determineBodyClass = () => {
-  if (theme === UI_MODES.dark) {
-    body.classList.remove("light");
-    body.classList.add("dark");
-    window.localStorage.setItem("swipegame_theming", UI_MODES.dark);
-  } else {
-    body.classList.add("light");
-    body.classList.remove("dark");
-    window.localStorage.setItem("swipegame_theming", UI_MODES.light);
-  }
-};
-
 const updateScoreDisplay = () => {
   scoreDisplay.innerHTML = score;
-};
-
-const toggleMode = () => {
-  theme = theme === UI_MODES.dark ? UI_MODES.light : UI_MODES.dark;
-
-  determineBodyClass();
 };
 
 const clearHighScore = () => {
