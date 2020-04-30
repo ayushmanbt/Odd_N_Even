@@ -280,7 +280,7 @@ nav h2 {
 }
 
 .buttons_holder .text {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   color: var(--text-color-primary);
   opacity: 0.7;
@@ -367,7 +367,7 @@ ul > li:nth-child(odd) {
 
 .titleImage {
   display: block;
-  width: 80%;
+  width: 50%;
   max-width: 512px;
   margin: 20px auto;
 }

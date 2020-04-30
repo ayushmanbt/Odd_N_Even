@@ -64,9 +64,8 @@
         <button
           aria-placeholder="Play the game"
           class="pause_button"
-          onclick="pauseGame()"
+          id="unpause_button"
           title="play the game?"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-play-circle"></span>
           <span class="text">Play</span>
@@ -74,8 +73,7 @@
         <button
           aria-placeholder="Mute"
           class="pause_button"
-          onclick="changeAudioStatus()"
-          onmouseenter="playHoverSound()"
+          id="mute_button"
           title="mute"
         >
           <span class="mdi mdi-volume-source" id="mute_audio"></span>
@@ -103,9 +101,8 @@
         <button
           aria-placeholder="Replay the game"
           class="pause_button"
-          onclick="replayGame()"
+          id="replay_button"
           title="replay the game?"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-play-circle"></span>
           <span class="text">Replay</span>
@@ -115,9 +112,8 @@
         <button
           aria-placeholder="Clear highscore"
           class="pause_button"
-          onclick="clearHighScore()"
+          id="remove_highscore_button"
           title="Remove Highscore"
-          onmouseenter="playHoverSound()"
         >
           <span class="mdi mdi-minus-circle"></span>
           <span class="text">Reset Highscore</span>
@@ -126,14 +122,13 @@
           href="/"
           aria-placeholder="Get to menu"
           class="pause_button"
-          title="p=Get to menu"
-          onmouseenter="playHoverSound()"
+          title="Get to menu"
         >
           <span class="mdi mdi-exit-to-app"></span>
           <span class="text">Main Menu</span>
         </a>
       </div>
-      <p>Share your score:</p>
+      <p>Share the game:</p>
       <div id="share_zone" class="buttons_holder"></div>
     </div>
     <nav>
@@ -160,25 +155,17 @@
       <button
         aria-placeholder="Pause the game"
         class="pause_button"
-        onclick="pauseGame()"
+        id="pause_button"
       >
         <span class="mdi mdi-pause-circle"></span>
       </button>
 
       <div class="buttons_container">
-        <button
-          class="arrow_left"
-          id="arrow_left"
-          onclick="answerHandle(ANSWER_OPTIONS.left)"
-        >
+        <button class="arrow_left" id="arrow_left">
           <span class="mdi mdi-arrow-left-bold"></span
           ><span id="arrow_left_text">Odd&nbsp;</span>
         </button>
-        <button
-          class="arrow_right"
-          id="arrow_left"
-          onclick="answerHandle(ANSWER_OPTIONS.right)"
-        >
+        <button class="arrow_right" id="arrow_right">
           <span id="arrow_right_text">Even</span
           ><span class="mdi mdi-arrow-right-bold"></span>
         </button>

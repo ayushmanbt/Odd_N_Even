@@ -1,7 +1,7 @@
 import {
   getFromLocalStorage,
   setToLocalStorage,
-} from "./localstorageHandler.js";
+} from "./localStorageHandler.js";
 
 const UI_MODES = {
   light: 0,
@@ -14,8 +14,8 @@ let theme = +getFromLocalStorage(THEME_KEY, UI_MODES.dark);
 
 let body = document.querySelector("body");
 
-export const determineBodyClass = () => {
-  if (theme === UI_MODES.dark) {
+const determineBodyClass = () => {
+  if (theme == UI_MODES.dark) {
     body.classList.remove("light");
     body.classList.add("dark");
   } else {
@@ -29,3 +29,5 @@ export const toggleTheme = () => {
   setToLocalStorage(THEME_KEY, theme);
   determineBodyClass();
 };
+
+determineBodyClass();

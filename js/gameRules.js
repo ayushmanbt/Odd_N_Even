@@ -1,278 +1,246 @@
-import { determineBodyClass, toggleTheme } from "./modules/themeHandling.js";
+import { toggleTheme } from "./modules/themeHandling.js";
+import {
+  setToLocalStorage,
+  getFromLocalStorage,
+} from "./modules/localStorageHandler.js";
+import { AudioManager, createAudioEntry } from "./modules/audioManager.js";
+import "./modules/sharing.js";
 
-const body = document.querySelector("body");
+(function () {
+  /*______________THEME______________*/
+  document
+    .querySelector("#theme_toggler")
+    .addEventListener("click", toggleTheme);
 
-determineBodyClass();
+  /*______________AUDIO______________*/
+  const backgroundMusic = createAudioEntry(
+    "backgroundMusic",
+    "../audio/bgm.mp3",
+    0.2
+  );
+  const successSound = createAudioEntry("successSound", "../audio/success.wav");
+  const errorSound = createAudioEntry("errorSound", "../audio/error.wav");
+  const hoverSound = createAudioEntry("hoverSound", "../audio/hover1.ogg");
 
-document
-  .querySelector("#theme_toggler")
-  .addEventListener("click", toggleTheme());
+  const audioList = [backgroundMusic, successSound, errorSound, hoverSound];
+  const audioManager = new AudioManager(audioList);
 
-const ANSWER_MODES = {
-  normal: 0,
-  reversed: 1,
-};
-
-const ANSWER_OPTIONS = {
-  left: 0,
-  right: 1,
-};
-
-const UPPER_BOUND = 1000;
-
-const playArea = document.querySelector(".container");
-const scoreDisplay = document.querySelector("#score");
-const numberDisplay = document.querySelector("#number");
-const leftTextContainer = document.querySelector("#arrow_left_text");
-const rightTextContainer = document.querySelector("#arrow_right_text");
-const timeHolder = document.querySelector("#time");
-const pauseScreen = document.querySelector("#pause_screen");
-const gameOverScreen = document.querySelector("#game_over_screen");
-const highscoreContainer = document.querySelector("#highscore_container");
-const muteAudioButtonIcon = document.querySelector("#mute_audio");
-
-document.querySelectorAll(".pause_button").forEach((element) => {
-  element.addEventListener("mouseenter", playHoverSound());
-});
-
-//this is our shareable url
-let location_split = window.location.href.split("/");
-location_split.pop();
-location_split.pop();
-let url = location_split.join("/");
-url = url + "/";
-
-//audio related stuff
-const bgm = new Audio("../audio/bgm.mp3");
-const successSound = new Audio("../audio/success.wav");
-const errorSound = new Audio("../audio/error.wav");
-const hoverSound = new Audio("../audio/hover1.ogg");
-
-bgm.volume = 0.2;
-
-let muted = window.localStorage.getItem("swipegame_audiostatus")
-  ? JSON.parse(window.localStorage.getItem("swipegame_audiostatus"))
-  : false;
-
-const audioStatus = () => {
-  if (muted) {
-    bgm.volume = 0;
-    successSound.volume = 0;
-    errorSound.volume = 0;
-    muteAudioButtonIcon.classList.add("mdi-volume-off");
-    muteAudioButtonIcon.classList.remove("mdi-volume-source");
-  } else {
-    bgm.volume = 0.2;
-    successSound.volume = 1;
-    errorSound.volume = 1;
-    muteAudioButtonIcon.classList.remove("mdi-volume-off");
-    muteAudioButtonIcon.classList.add("mdi-volume-source");
-  }
-};
-
-const changeAudioStatus = () => {
-  if (muted) {
-    muted = false;
-    audioStatus();
-  } else {
-    muted = true;
-    audioStatus();
-  }
-  window.localStorage.setItem("swipegame_audiostatus", muted);
-};
-
-//these variables are fou touch inputs
-const TOUCH_THRESHOLD = 150;
-
-let touchStartPosX = 0;
-let touchMoveX = 0;
-
-let theme = window.localStorage.getItem("swipegame_theming")
-  ? +window.localStorage.getItem("swipegame_theming")
-  : UI_MODES.dark;
-
-let localHighScore = window.localStorage.getItem("swipegame_highscore")
-  ? +window.localStorage.getItem("swipegame_highscore")
-  : 0;
-
-let score = 0;
-let acceptingAnswer = true;
-let paused = false;
-
-let time = 60;
-
-let number = 21;
-let answerMode = ANSWER_MODES.normal;
-
-let correctAnswers = window.localStorage.getItem("swipegame_correct_answers")
-  ? +window.localStorage.getItem("swipegame_correct_answers")
-  : 0;
-let wrongAnswers = window.localStorage.getItem("swipegame_wrong_answers")
-  ? +window.localStorage.getItem("swipegame_wrong_answers")
-  : 0;
-
-let numberOfTimesPlayed = window.localStorage.getItem(
-  "swipegame_number_of_times_played"
-)
-  ? +window.localStorage.getItem("swipegame_number_of_times_played")
-  : 0;
-
-let timeUpdater = setInterval(() => {
-  time -= 1;
-  updateTimeHolder();
-}, 1000);
-
-const updateTimeHolder = () => {
-  if (time <= 0) {
-    time = 0;
-    clearInterval(timeUpdater);
-    bgm.pause();
-    acceptingAnswer = false;
-    gameOverScreen.style.display = "flex";
-    numberOfTimesPlayed += 1;
-    window.localStorage.setItem(
-      "swipegame_number_of_times_played",
-      numberOfTimesPlayed
+  document.querySelectorAll(".pause_button").forEach((element) => {
+    element.addEventListener("mouseenter", () =>
+      audioManager.playAudio(hoverSound.name)
     );
-    score > localHighScore ? displayNewHighScore() : displayNewScore();
-  }
-  timeHolder.innerText = time;
-};
+  });
 
-const displayNewHighScore = () => {
-  localHighScore = score;
-  window.localStorage.setItem("swipegame_highscore", localHighScore);
-  updateShareZone();
-  highscoreContainer.innerHTML = `
-        <p>You Got new HighScore!<p>
-        <p class="highscore_text">${localHighScore}</p>
-      `;
-};
+  document.querySelector("#mute_button").addEventListener("click", () => {
+    audioManager.playAudio("hover");
+  });
 
-const displayNewScore = () => {
-  highscoreContainer.innerHTML = `
-  <p class="highscore_text">Highscore: ${localHighScore}</p>
-  <p class="score_text">Your Score: ${score}</p>
-`;
-};
+  /*__________HIGHSCORE_________*/
 
-const replayGame = () => {
-  window.location.reload();
-};
+  let highScore = +getFromLocalStorage("swipegame_highscore");
 
-const pauseGame = () => {
-  if (!paused) {
-    clearInterval(timeUpdater);
-    paused = true;
-    pauseScreen.style.display = "flex";
-    bgm.pause();
-  } else {
-    paused = false;
-    timeUpdater = setInterval(() => {
-      time -= 1;
-      updateTimeHolder();
-    }, 1000);
-    bgm.play();
-    pauseScreen.style.display = "none";
-  }
-};
+  const highscoreContainer = document.querySelector("#highscore_container");
 
-const getNewQuestion = () => {
-  number = Math.floor(Math.random() * UPPER_BOUND);
-  numberDisplay.innerText = number;
-  answerMode = Math.round(Math.random());
-  if (answerMode === ANSWER_MODES.normal) {
-    leftTextContainer.innerText = "odd";
-    rightTextContainer.innerText = "even";
-  } else {
-    leftTextContainer.innerText = "even";
-    rightTextContainer.innerText = "odd";
-  }
-};
+  const displayNewHighScore = () => {
+    highScore = score;
+    setToLocalStorage("swipegame_highscore", highScore);
+    highscoreContainer.innerHTML = `
+          <p>You Got new HighScore!<p>
+          <p class="highscore_text">${highScore}</p>
+        `;
+  };
 
-const clearAnswerIndicationClasses = () => {
-  body.classList.remove("no-before-after");
-  body.classList.remove("right_answer");
-  body.classList.remove("wrong_answer");
-};
+  const displayNewScore = () => {
+    highscoreContainer.innerHTML = `
+    <p class="highscore_text">Highscore: ${highScore}</p>
+    <p class="score_text">Your Score: ${score}</p>
+  `;
+  };
 
-document.querySelector("body").addEventListener("animationend", () => {
-  clearAnswerIndicationClasses();
-  body.classList.add("no-before-after");
-});
+  document
+    .querySelector("#remove_highscore_button")
+    .addEventListener("click", () => {
+      if (
+        window.confirm(
+          "Are you sure to remove your highscore? This will reset your highscore to 0"
+        )
+      ) {
+        highScore = 0;
+        localStorage.setItem("swipegame_highscore", 0);
+        displayNewScore();
+        alert("Highscore update successful");
+      }
+    });
 
-timeHolder.addEventListener("animationend", () => {
-  timeHolder.classList.remove("minus_10_time");
-  timeHolder.classList.add("no-before-after");
-});
+  /*_______________PAUSING_______________*/
 
-scoreDisplay.addEventListener("animationend", () => {
-  scoreDisplay.classList.remove("plus_1_score");
-  scoreDisplay.classList.add("no-before-after");
-});
+  let paused = false;
+  const pauseScreen = document.querySelector("#pause_screen");
 
-const correctAnswerUpdate = () => {
-  clearAnswerIndicationClasses();
-  score += 1;
-  correctAnswers += 1;
+  const updatePauseStat = () => {
+    if (!paused) {
+      paused = true;
+      pauseScreen.style.display = "flex";
+      audioManager.pauseAudio(backgroundMusic);
+    } else {
+      paused = false;
+      audioManager.playAudio(backgroundMusic);
+      pauseScreen.style.display = "none";
+    }
+  };
 
-  window.localStorage.setItem("swipegame_correct_answers", correctAnswers);
+  document
+    .querySelector("#pause_button")
+    .addEventListener("click", () => updatePauseStat());
 
-  successSound.play();
+  document
+    .querySelector("#unpause_button")
+    .addEventListener("click", () => updatePauseStat());
 
-  body.classList.add("right_answer");
+  /*__________TIMING & GAME END___________*/
+  let numberOfTimesPlayed = +getFromLocalStorage(
+    "swipegame_number_of_times_played",
+    "0"
+  );
 
-  scoreDisplay.classList.remove("plus_1_score");
-  scoreDisplay.classList.remove("no-before-after");
-  scoreDisplay.classList.add("plus_1_score");
-};
+  let time = 60;
+  let acceptingAnswer = true;
+  const timeHolder = document.querySelector("#time");
 
-const wrongAnswerUpdate = () => {
-  clearAnswerIndicationClasses();
+  const updateTimeDisplay = () => {
+    if (time <= 0) {
+      time = 0;
+      //clearInterval(timeUpdater);
+      audioManager.pauseAudio(backgroundMusic);
+      acceptingAnswer = false;
+      document.querySelector("#game_over_screen").style.display = "flex";
+      numberOfTimesPlayed += 1;
+      setToLocalStorage(
+        "swipegame_number_of_times_played",
+        numberOfTimesPlayed
+      );
+      score > highScore ? displayNewHighScore() : displayNewScore();
+    }
+    timeHolder.innerText = time;
+  };
 
-  time -= 10;
-  wrongAnswers += 1;
+  let timeUpdater = setInterval(() => {
+    if (!paused) time -= 1;
+    updateTimeDisplay();
+    if (time <= 0) clearInterval(timeUpdater);
+  }, 1000);
 
-  window.localStorage.setItem("swipegame_wrong_answers", wrongAnswers);
+  /*________QUESTION CREATION______*/
+  const UPPER_BOUND = 1000;
 
-  updateTimeHolder();
-  window.navigator.vibrate(200);
-  errorSound.play();
+  const ANSWER_MODES = {
+    normal: 0,
+    reversed: 1,
+  };
 
-  body.classList.add("wrong_answer");
+  const numberDisplay = document.querySelector("#number");
+  const leftTextContainer = document.querySelector("#arrow_left_text");
+  const rightTextContainer = document.querySelector("#arrow_right_text");
 
-  timeHolder.classList.remove("minus_10_time");
-  timeHolder.classList.remove("no-before-after");
-  timeHolder.classList.add("minus_10_time");
-};
+  let number;
+  let answerMode;
 
-//these are for additional inputs
-playArea.addEventListener("touchstart", (e) => {
-  touchStartPosX = e.touches[0].pageX;
-});
+  const getNewQuestion = () => {
+    number = Math.floor(Math.random() * UPPER_BOUND);
+    numberDisplay.innerText = number;
+    answerMode = Math.round(Math.random());
+    if (answerMode === ANSWER_MODES.normal) {
+      leftTextContainer.innerText = "odd";
+      rightTextContainer.innerText = "even";
+    } else {
+      leftTextContainer.innerText = "even";
+      rightTextContainer.innerText = "odd";
+    }
+  };
 
-playArea.addEventListener("touchmove", (e) => {
-  touchMoveX = e.touches[0].pageX - touchStartPosX;
-});
+  /*__________ANSWER GIMICS____________*/
 
-playArea.addEventListener("touchend", () => {
-  if (touchMoveX < -1 * TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.left);
-  else if (touchMoveX > TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.right);
+  const scoreDisplay = document.querySelector("#score");
+  const body = document.querySelector("body");
 
-  touchMoveX = 0;
-});
+  const clearAnswerIndicationClasses = () => {
+    body.classList.remove("no-before-after");
+    body.classList.remove("right_answer");
+    body.classList.remove("wrong_answer");
+  };
 
-//keyboard inputs
-document.onkeydown = (e) => {
-  if (e.keyCode == "37") answerHandle(ANSWER_OPTIONS.left);
-  else if (e.keyCode == "39") answerHandle(ANSWER_OPTIONS.right);
-};
+  document.querySelector("body").addEventListener("animationend", () => {
+    clearAnswerIndicationClasses();
+    body.classList.add("no-before-after");
+  });
 
-const answerHandle = (answerDirection) => {
-  if (
-    ((answerDirection === ANSWER_OPTIONS.left &&
-      number % 2 === 1 &&
-      answerMode === ANSWER_MODES.normal) ||
+  timeHolder.addEventListener("animationend", () => {
+    timeHolder.classList.remove("minus_10_time");
+    timeHolder.classList.add("no-before-after");
+  });
+
+  scoreDisplay.addEventListener("animationend", () => {
+    scoreDisplay.classList.remove("plus_1_score");
+    scoreDisplay.classList.add("no-before-after");
+  });
+
+  /*___________ANSWERING______________*/
+
+  const ANSWER_OPTIONS = {
+    left: 0,
+    right: 1,
+  };
+  let correctAnswers = +getFromLocalStorage("swipegame_correct_answers", "0");
+  let wrongAnswers = +getFromLocalStorage("swipegame_wrong_answers", "0");
+
+  let score = 0;
+
+  const updateScoreDisplay = () => {
+    scoreDisplay.innerHTML = score;
+  };
+
+  const correctAnswerUpdate = () => {
+    clearAnswerIndicationClasses();
+    score += 1;
+    correctAnswers += 1;
+
+    setToLocalStorage("swipegame_correct_answers", correctAnswers);
+
+    audioManager.playAudio(successSound);
+
+    body.classList.add("right_answer");
+
+    scoreDisplay.classList.remove("plus_1_score");
+    scoreDisplay.classList.remove("no-before-after");
+    scoreDisplay.classList.add("plus_1_score");
+  };
+
+  const wrongAnswerUpdate = () => {
+    clearAnswerIndicationClasses();
+
+    time -= 10;
+    wrongAnswers += 1;
+
+    setToLocalStorage("swipegame_wrong_answers", wrongAnswers);
+
+    updateTimeDisplay();
+    window.navigator.vibrate(200);
+    audioManager.playAudio(errorSound);
+
+    body.classList.add("wrong_answer");
+
+    timeHolder.classList.remove("minus_10_time");
+    timeHolder.classList.remove("no-before-after");
+    timeHolder.classList.add("minus_10_time");
+  };
+
+  const answerHandle = (answerDirection) => {
+    if (!acceptingAnswer) return;
+
+    if (
+      (answerDirection === ANSWER_OPTIONS.left &&
+        number % 2 === 1 &&
+        answerMode === ANSWER_MODES.normal) ||
       (answerDirection === ANSWER_OPTIONS.right &&
         number % 2 === 0 &&
         answerMode === ANSWER_MODES.normal) ||
@@ -281,100 +249,66 @@ const answerHandle = (answerDirection) => {
         answerMode === ANSWER_MODES.reversed) ||
       (answerDirection === ANSWER_OPTIONS.right &&
         number % 2 === 1 &&
-        answerMode === ANSWER_MODES.reversed)) &&
-    acceptingAnswer
-  )
-    correctAnswerUpdate();
-  else if (acceptingAnswer) wrongAnswerUpdate();
+        answerMode === ANSWER_MODES.reversed)
+    )
+      correctAnswerUpdate();
+    else wrongAnswerUpdate();
 
-  if (bgm.currentTime == 0) {
-    bgm.play();
-  }
-
-  if (acceptingAnswer) {
     updateScoreDisplay();
     getNewQuestion();
-  }
-};
+  };
 
-const updateScoreDisplay = () => {
-  scoreDisplay.innerHTML = score;
-};
+  /*______________INPUTS______________*/
 
-const clearHighScore = () => {
-  if (
-    window.confirm(
-      "Are you sure to remove your highscore? This will reset your highscore to 0"
-    )
-  ) {
-    localHighScore = 0;
-    localStorage.setItem("swipegame_highscore", 0);
-    displayNewScore();
-    alert("Highscore update successful");
-  }
-};
+  //touchinput
+  const TOUCH_THRESHOLD = 150;
+  let touchStartPosX = 0;
+  let touchMoveX = 0;
+  const playArea = document.querySelector(".container");
 
-//sharing related stuff
-const share = () => {
-  navigator
-    .share({
-      title: "Odd N Even: One of the coolest game in this universe",
-      text: `Can you beat my highscore of ${localHighScore} in Odd n Even a super fun casual game`,
-      url: url,
-    })
-    .then(() => console.log("successful"))
-    .catch((err) => console.log(err));
-};
+  //these are for additional inputs
+  playArea.addEventListener("touchstart", (e) => {
+    touchStartPosX = e.touches[0].pageX;
+  });
 
-const shareZone = document.querySelector("#share_zone");
-const updateShareZone = () => {
-  if (navigator.share) {
-    shareZone.innerHTML = `
-      <button
-      aria-placeholder="Share your Score"
-      class="pause_button"
-      onclick="share()"
-      title="Share Your Score"
-      >
-       <span class="mdi mdi-share"></span>
-      </button>
-    `;
-  } else {
-    shareZone.innerHTML = `
-      <a
-      href="https://www.facebook.com/sharer.php?u=${url}&caption=Can_you_beat_my_highscore_of_${localHighScore}_in_Odd_N_Even"
-      aria-placeholder="Share in Facebook"
-      class="pause_button"
-      title="Share in facebook"
-      target="_blank"
-      rel="noopener"
-      >
-        <span class="mdi mdi-facebook"></span>
-      </a>
-  
-      <a
-      href="https://twitter.com/share?url=${url}&text=Can you beat my highscore of ${localHighScore} in Odd N Even by @AyushmanBThakur"
-      aria-placeholder="Share in Twitter"
-      class="pause_button"
-      title="play the game?"
-      target="_blank"
-      rel="noopener"
-      >
-        <span class="mdi mdi-twitter" style="color: skyblue"></span>
-      </a>
-    `;
-  }
-};
+  playArea.addEventListener("touchmove", (e) => {
+    touchMoveX = e.touches[0].pageX - touchStartPosX;
+  });
 
-const playHoverSound = () => {
-  if (!muted) {
-    hoverSound.play();
-  }
-};
+  playArea.addEventListener("touchend", () => {
+    if (touchMoveX < -1 * TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.left);
+    else if (touchMoveX > TOUCH_THRESHOLD) answerHandle(ANSWER_OPTIONS.right);
 
-determineBodyClass();
-updateScoreDisplay();
-getNewQuestion();
-audioStatus();
-updateShareZone();
-pauseGame();
+    touchMoveX = 0;
+  });
+
+  //keyboard inputs
+  document.onkeydown = (e) => {
+    if (e.keyCode == "37") answerHandle(ANSWER_OPTIONS.left);
+    else if (e.keyCode == "39") answerHandle(ANSWER_OPTIONS.right);
+  };
+
+  //click inputs
+  document
+    .querySelector("#arrow_left")
+    .addEventListener("click", () => answerHandle(ANSWER_OPTIONS.left));
+  document
+    .querySelector("#arrow_right")
+    .addEventListener("click", () => answerHandle(ANSWER_OPTIONS.right));
+
+  /*_____________REPLAY GAME_______________*/
+  document
+    .querySelector("#replay_button")
+    .addEventListener("click", () => window.location.reload());
+
+  /*_________STARTUP METHODS______________*/
+  const startupMethods = () => {
+    //we will start the game as paused, a cheeky way to fire the Bacground Music
+    document.querySelector("#pause_button").click();
+    getNewQuestion();
+    updateScoreDisplay();
+    updateTimeDisplay();
+  };
+
+  startupMethods();
+})();

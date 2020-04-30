@@ -1,29 +1,43 @@
 //theme
-import { determineBodyClass, toggleTheme } from "./modules/themeHandling.js";
-//audio
-import {
-  audioStatus,
-  playHoverSound,
-} from "./modules/homepageSpecific/audioHomepage.js";
+import { toggleTheme } from "./modules/themeHandling.js";
+import { AudioManager, createAudioEntry } from "./modules/audioManager.js";
 
 import {
   getFromLocalStorage,
   setToLocalStorage,
-} from "./gameRules/localStorageHandling.js";
+} from "./modules/localStorageHandler.js";
+
+import "./modules/sharing.js";
 
 (function () {
+  //theme
   document
     .querySelector(".toggle_button")
     .addEventListener("click", toggleTheme);
 
+  //audio
+  const hoverSound = createAudioEntry("hoverSound", "../audio/hover1.ogg");
+
+  const audioManager = AudioManager.createFromURLs([hoverSound]);
+
+  document.querySelectorAll(".pause_button").forEach((element) => {
+    element.addEventListener("mouseenter", () =>
+      audioManager.playAudio(hoverSound)
+    );
+  });
+
+  document.querySelector("#mute_button").addEventListener("click", () => {
+    audioManager.playAudio(hoverSound);
+    audioManager.toggleMuteStatus();
+  });
   //rulebook
   const rulebook = document.querySelector("#rulebook");
   document.querySelector("#hide_rules_button").addEventListener("click", () => {
-    playHoverSound();
+    audioManager.playAudio(hoverSound);
     rulebook.style.display = "none";
   });
   document.querySelector("#show_rules_button").addEventListener("click", () => {
-    playHoverSound();
+    audioManager.playAudio(hoverSound);
     rulebook.style.display = "flex";
   });
 
@@ -57,42 +71,39 @@ import {
   const stats_display = document.querySelector("#stats");
 
   document.querySelector("#show_stats_button").addEventListener("click", () => {
-    playHoverSound();
+    audioManager.playAudio(hoverSound);
     stats_display.style.display = "flex";
   });
 
   document.querySelector("#hide_stats_button").addEventListener("click", () => {
-    playHoverSound();
+    audioManager.playAudio(hoverSound);
     stats_display.style.display = "none";
   });
 
-  document.querySelector("#delete_stats_button", () => {
-    if (
-      window.confirm(
-        "Are you sure want to delete the stats? This is unrecoverable"
-      )
-    ) {
-      highscore = 0;
-      correctAnswers = 0;
-      wrongAnswers = 0;
-      numberOfTimesPlayed = 0;
+  document
+    .querySelector("#delete_stats_button")
+    .addEventListener("click", () => {
+      if (
+        window.confirm(
+          "Are you sure want to delete the stats? This is unrecoverable"
+        )
+      ) {
+        highscore = 0;
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        numberOfTimesPlayed = 0;
 
-      setToLocalStorage("swipegame_correct_answers", 0);
-      setToLocalStorage("swipegame_wrong_answers", 0);
-      setToLocalStorage("swipegame_highscore", 0);
-      setToLocalStorage("swipegame_number_of_times_played", 0);
+        setToLocalStorage("swipegame_correct_answers", 0);
+        setToLocalStorage("swipegame_wrong_answers", 0);
+        setToLocalStorage("swipegame_highscore", 0);
+        setToLocalStorage("swipegame_number_of_times_played", 0);
 
-      playCountDisplay.innerText = numberOfTimesPlayed;
-      highscoreDisplay.innerText = highscore;
-      correctAnswerDisplay.innerText = correctAnswers;
-      wrongAnswerDisplay.innerText = wrongAnswers;
-    }
-  });
-
-  const startupTasks = () => {
-    audioStatus();
-    determineBodyClass();
-  };
+        playCountDisplay.innerText = numberOfTimesPlayed;
+        highscoreDisplay.innerText = highscore;
+        correctAnswerDisplay.innerText = correctAnswers;
+        wrongAnswerDisplay.innerText = wrongAnswers;
+      }
+    });
 
   //everything related to installation
   const installButton = document.querySelector("#install_button");
@@ -130,7 +141,7 @@ import {
   });
 
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js").then((reg) => {
+    navigator.serviceWorker.register("../sw.js", { scope: "/" }).then((reg) => {
       reg.addEventListener("updatefound", () => {
         newWorker = reg.installing;
         newWorker.addEventListener("statechange", () => {
@@ -151,6 +162,4 @@ import {
       refreshing = true;
     });
   }
-
-  startupTasks();
 })();
