@@ -56,5 +56,5 @@ if (shareZone) {
   }
 
   const shareAPIbutton = document.getElementById("#share_api_button");
-  if (shareAPIbutton) shareAPIbutton.addEventListener("click", () => share);
+  if (shareAPIbutton) shareAPIbutton.addEventListener("click", () => share());
 }

@@ -39,18 +39,20 @@ export class AudioManager {
     return new AudioManager(newList);
   }
 
-  playAudio(audio) {
+  playAudio(audioInput) {
     if (this.isAudioMute) return;
 
-    let audioName = audio.name ? audio.name : audio;
+    let audioName = audioInput.name ? audioInput.name : audioInput;
 
     this.audioList.forEach((audio) => {
       if (audio.name === audioName) audio.audioController.play();
     });
   }
 
-  pauseAudio(audioName) {
+  pauseAudio(audioInput) {
     if (this.isAudioMute) return;
+
+    let audioName = audioInput.name ? audioInput.name : audioInput;
 
     this.audioList.forEach((audio) => {
       if (audio.name === audioName) audio.audioController.pause();

@@ -23,16 +23,17 @@ import "./modules/sharing.js";
   const hoverSound = createAudioEntry("hoverSound", "../audio/hover1.ogg");
 
   const audioList = [backgroundMusic, successSound, errorSound, hoverSound];
-  const audioManager = new AudioManager(audioList);
+  const audioManager = AudioManager.createFromURLs(audioList);
 
   document.querySelectorAll(".pause_button").forEach((element) => {
     element.addEventListener("mouseenter", () =>
-      audioManager.playAudio(hoverSound.name)
+      audioManager.playAudio(hoverSound)
     );
   });
 
   document.querySelector("#mute_button").addEventListener("click", () => {
-    audioManager.playAudio("hover");
+    audioManager.toggleMuteStatus();
+    audioManager.playAudio(hoverSound);
   });
 
   /*__________HIGHSCORE_________*/
