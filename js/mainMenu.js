@@ -10,6 +10,43 @@ import {
 import "./modules/sharing.js";
 
 (function () {
+  //username
+  let userName = getFromLocalStorage("swipegame-username");
+
+  if (userName === "0") {
+    userName = prompt(
+      "Set up your username to store Results:",
+      `user${Math.floor(Math.random() * 1000)}`
+    );
+    if (userName === null) {
+      userName = `user${Math.floor(Math.random() * 1000)}`;
+      alert(
+        "You did not set up a proper username, currently setting to something random"
+      );
+    }
+    setToLocalStorage("swipegame-username", userName);
+  }
+
+  const getWelcomeMessage = () => {
+    const initation_message = ["Hello", "Howdy", "Welcome", "Hello There!"];
+    let index = Math.floor(Math.random() * initation_message.length);
+    document.querySelector(
+      "#welcome_message"
+    ).innerText = `${initation_message[index]} ${userName}`;
+  };
+
+  getWelcomeMessage();
+
+  document.querySelector("#change_name").addEventListener("click", () => {
+    userName = prompt("Change your username", userName);
+    if (userName === null || userName === "") {
+      userName = getFromLocalStorage("swipegame-username");
+    } else {
+      setToLocalStorage("swipegame-username", userName);
+    }
+    getWelcomeMessage();
+  });
+
   //theme
   document
     .querySelector(".toggle_button")

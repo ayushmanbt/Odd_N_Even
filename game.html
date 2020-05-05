@@ -79,8 +79,6 @@
           <span class="mdi mdi-volume-source" id="mute_audio"></span>
           <span class="text">Volume</span>
         </button>
-      </div>
-      <div class="buttons_holder">
         <a
           href="/"
           aria-placeholder="Main Menu"
@@ -93,8 +91,13 @@
       </div>
     </div>
     <div id="game_over_screen" class="full_screen_items">
-      <h2>Game Over</h2>
+      <h2 id="game_over_text">Game Over</h2>
       <div id="highscore_container"></div>
+      <div class="buttons_holder">
+        <a href="/leaderboard.html" class="cta_button gamepage_leaderboard">
+          Leaderboard
+        </a>
+      </div>
       <p class="play_again_text">Play again?</p>
 
       <div class="buttons_holder">
@@ -107,7 +110,17 @@
           <span class="mdi mdi-play-circle"></span>
           <span class="text">Replay</span>
         </button>
+        <a
+          href="/"
+          aria-placeholder="Get to menu"
+          class="pause_button"
+          title="Get to menu"
+        >
+          <span class="mdi mdi-exit-to-app"></span>
+          <span class="text">Main Menu</span>
+        </a>
       </div>
+
       <div class="buttons_holder">
         <button
           aria-placeholder="Clear highscore"
@@ -118,15 +131,6 @@
           <span class="mdi mdi-minus-circle"></span>
           <span class="text">Reset Highscore</span>
         </button>
-        <a
-          href="/"
-          aria-placeholder="Get to menu"
-          class="pause_button"
-          title="Get to menu"
-        >
-          <span class="mdi mdi-exit-to-app"></span>
-          <span class="text">Main Menu</span>
-        </a>
       </div>
       <p>Share the game:</p>
       <div id="share_zone" class="buttons_holder"></div>

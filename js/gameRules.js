@@ -98,6 +98,56 @@ import "./modules/sharing.js";
     .querySelector("#unpause_button")
     .addEventListener("click", () => updatePauseStat());
 
+  /*________SENDING THE SCORE__________*/
+  let isSendingScoreToBackend = false;
+
+  const sendScoreToBackend = () => {
+    if (isSendingScoreToBackend) return;
+    isSendingScoreToBackend = true;
+    const userName = getFromLocalStorage("swipegame-username");
+    fetch("https://oddneven-backend.glitch.me/api/result", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: userName,
+        score: score,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  /*_________CUSTOM GAMEOVER TEXT__________*/
+  const createCustomGameoverText = () => {
+    const game_over_message_best = [
+      "Superb",
+      "You Blew The Game Away!",
+      "Legendary!",
+    ];
+    const game_over_message_better = ["You are pro", "Awesome", "Star player"];
+    const game_over_message_medioker = [
+      "Good",
+      "To be legend!",
+      "Well played!",
+    ];
+    const game_over_message_bad = ["Better luck next time", "Practice"];
+
+    let selectedArray;
+
+    if (score > 50) selectedArray = game_over_message_best;
+    else if (score > 40) selectedArray = game_over_message_better;
+    else if (score > 30) selectedArray = game_over_message_medioker;
+    else selectedArray = game_over_message_bad;
+    let index = Math.floor(Math.random() * selectedArray.length);
+    document.querySelector("#game_over_text").innerText = selectedArray[index];
+  };
+
   /*__________TIMING & GAME END___________*/
   let numberOfTimesPlayed = +getFromLocalStorage(
     "swipegame_number_of_times_played",
@@ -115,11 +165,15 @@ import "./modules/sharing.js";
       audioManager.pauseAudio(backgroundMusic);
       acceptingAnswer = false;
       document.querySelector("#game_over_screen").style.display = "flex";
+
+      createCustomGameoverText();
+
       numberOfTimesPlayed += 1;
       setToLocalStorage(
         "swipegame_number_of_times_played",
         numberOfTimesPlayed
       );
+      sendScoreToBackend();
       score > highScore ? displayNewHighScore() : displayNewScore();
     }
     timeHolder.innerText = time;

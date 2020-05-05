@@ -1,12 +1,15 @@
-const STATIC_CACHE_NAME = "oddneven-v7";
+const STATIC_CACHE_NAME = "oddneven-v2.0.1";
 
 const assets = [
   "/",
   "/index.html",
+  "/leaderboard.html",
   "/manifest.json",
   "/css/style.css",
   "/js/mainMenu.js",
+  "/js/leaderboard.js",
   "/images/bare_logo.png",
+  "/images/Loading_2.gif",
   "/images/icons/72X72.png",
   "/images/icons/96X96.png",
   "/images/icons/128X128.png",

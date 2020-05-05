@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="manifest" href="./manifest.json" />
+
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="./images/icons/72x72.png" />
+    <link rel="apple-touch-icon" href="./images/icons/96x96.png" />
+    <link rel="apple-touch-icon" href="./images/icons/128x128.png" />
+    <link rel="apple-touch-icon" href="./images/icons/144x144.png" />
+    <link rel="apple-touch-icon" href="./images/icons/152x152.png" />
+    <link rel="apple-touch-icon" href="./images/icons/192x192.png" />
+    <link rel="apple-touch-icon" href="./images/icons/384x384.png" />
+    <link rel="apple-touch-icon" href="./images/icons/512x512.png" />
+    <meta name="apple-mobile-web-app-status-bar" content="#028a72" />
+    <meta name="theme-color" content="#028a72" />
+
+    <link rel="shortcut icon" href="./images/bare_logo.png" type="image/png" />
+
+    <!-- Some tags for web share -->
+    <meta
+      name="description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+
+    <meta
+      name="keywords"
+      content="game, odd even, touch game, android game, swipe game, odd even game"
+    />
+
+    <meta property="og:title" content="Odd N Even" />
+    <meta
+      property="og:description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+    <meta property="og:image" content="/icons/512x512.png" />
+
+    <meta name="twitter:title" content="Odd N Even" />
+    <meta
+      name="twitter:description"
+      content="A relaxing game for swiping and having fun and telling if a number is odd or even"
+    />
+    <meta property="twitter:image" content="/icons/512x512.png" />
+
+    <title>Odd N Even | Leaderboard</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body class="leaderboard">
+    <nav>
+      <h2 class="score_holder">
+        <span class="mdi mdi-counter"></span> <span id="score">0</span>
+      </h2>
+      <h2 class="time_holder">
+        <span class="mdi mdi-timer"></span>
+        <span id="time">0</span>
+      </h2>
+      <div class="toggler_container">
+        <p>🌞</p>
+        <button class="toggle_button">
+          <div class="round" id="toggle_indicator"></div>
+        </button>
+        <p>🌘</p>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="buttons_holder">
+        <a
+          class="pause_button pause_button_horizontal"
+          title="Get to menu"
+          href="/index.html"
+        >
+          <span class="mdi mdi-arrow-left"></span>
+          <span class="text">Get to Menu</span>
+        </a>
+      </div>
+
+      <h1 class="title">Global Leaderboard</h1>
+
+      <div class="personal_best">
+        <strong>Best On this device: </strong><span id="local_best"></span>
+      </div>
+
+      <div class="device_selection_list">
+        <div class="selection_item active" id="common">COMMON</div>
+        <div class="selection_item" id="desktop">DESKTOP</div>
+        <div class="selection_item" id="mobile">MOBILE</div>
+      </div>
+
+      <ul class="top_five_list">
+        <li class="top_list_item">
+          <p class="name">AyB</p>
+          <p class="score">89</p>
+        </li>
+        <li class="top_list_item">
+          <p class="name">AyB</p>
+          <p class="score">82</p>
+        </li>
+        <li class="top_list_item">
+          <p class="name">AyB</p>
+          <p class="score">72</p>
+        </li>
+      </ul>
+
+      <div class="buttons_holder">
+        <a class="pause_button" title="Play" href="/game.html">
+          <span class="mdi mdi-play-circle"></span>
+          <span class="text">Play the Game</span>
+        </a>
+
+        <button
+          aria-placeholder="Mute"
+          class="pause_button"
+          id="mute_button"
+          title="mute"
+        >
+          <span class="mdi mdi-volume-source" id="mute_audio"></span>
+          <span class="text">Volume</span>
+        </button>
+      </div>
+    </div>
+    <script type="module" src="/js/leaderboard.js"></script>
+  </body>
+</html>

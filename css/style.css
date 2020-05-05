@@ -234,7 +234,9 @@ nav h2 {
 }
 
 .light .container {
-  --highlight-color-a: #ff8800;
+  --highlight-color-a: #000c3f;
+  --pause-button-hover: #004299;
+  --highlight-color-contrast-a: #e9e9e9;
 }
 
 .container {
@@ -260,7 +262,7 @@ nav h2 {
 
 .buttons_holder {
   display: flex;
-  margin: 5px 0;
+  margin: 10px 0;
 }
 
 .buttons_holder button,
@@ -291,19 +293,49 @@ nav h2 {
   opacity: 0.7;
 }
 
+.buttons_holder a {
+  text-decoration: none;
+}
+
 .buttons_holder button:hover,
 .buttons_holder a:hover {
   transform: scale(1.15);
 }
 
+#welcome_message {
+  color: var(--text-color-primary);
+}
+
+.cta_button {
+  border: 2px solid var(--highlight-color-a);
+  background: none;
+  text-decoration: none;
+  color: var(--highlight-color-a);
+  padding: 5px 10px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gamepage_leaderboard {
+  width: auto !important;
+}
+
 .pause_button {
-  font-size: 3rem;
+  font-size: 2rem;
   background: none;
   outline: none;
   border: none;
   color: var(--highlight-color-a);
   cursor: pointer;
   transition: color 0.3s ease-in-out;
+}
+
+.pause_button_horizontal {
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .pause_button:hover {
@@ -367,9 +399,117 @@ ul > li:nth-child(odd) {
 
 .titleImage {
   display: block;
-  width: 50%;
+  width: 60%;
   max-width: 512px;
   margin: 20px auto;
+}
+
+/* style for the leadrboard page */
+
+.leaderboard.dark {
+  --title-color-1: #feea3a;
+  --highlight-color-b: #fffb00;
+  --saturation-amount: 10;
+}
+
+.leaderboard.light .container {
+  --title-color-1: #000a35;
+  --highlight-color-b: #fffb00;
+  --saturation-amount: 0.125;
+}
+
+.container .title {
+  text-align: center;
+  color: var(--title-color-1);
+}
+
+.personal_best {
+  color: var(--text-color-primary);
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+#local_best {
+  color: var(--title-color-1);
+}
+
+.device_selection_list {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color-secondary);
+  padding: 10px 15px;
+}
+
+.selection_item {
+  margin: 0 10px;
+  color: var(--text-color-primary);
+  transition: color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.selection_item:hover {
+  color: var(--highlight-color-b);
+  display: block;
+}
+
+.selection_item.active {
+  position: relative;
+  font-weight: bold;
+  color: var(--highlight-color-b);
+}
+
+.selection_item.active::after {
+  content: " ";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform-origin: center;
+  background-color: var(--highlight-color-b);
+  animation: grow_botoom_bar 0.3s ease-in-out forwards;
+}
+
+@keyframes grow_bottom_bar {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.top_five_list {
+  list-style: none;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.top_list_item::before {
+  content: none;
+}
+
+.top_list_item:hover,
+.top_list_item:focus {
+  filter: saturate(var(--saturation-amount));
+}
+
+.top_list_item {
+  margin: 3px auto;
+  width: 95%;
+  max-width: 316px;
+  background-color: var(--background-color-secondary);
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-color-primary) !important;
+}
+.top_list_item .score {
+  color: var(--highlight-color-b);
 }
 
 @media only screen and (min-width: 512px) {

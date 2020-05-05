@@ -38,7 +38,7 @@ if (shareZone) {
         rel="noopener"
       >
         <span class="mdi mdi-facebook"></span>
-        <span class="text">FB Share</span>  
+        <span class="text">FB</span>  
       </a>
   
       <a
@@ -50,7 +50,7 @@ if (shareZone) {
         rel="noopener"
       >
         <span class="mdi mdi-twitter" style="color: skyblue"></span>
-        <span class="text">Twitter Share</span>
+        <span class="text">Twitter</span>
       </a>
     `;
   }
