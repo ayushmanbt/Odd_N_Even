@@ -10,67 +10,6 @@ import {
 import "./modules/sharing.js";
 
 (function () {
-  //username
-  let userName = getFromLocalStorage("swipegame-username");
-
-  if (userName === "0") {
-    userName = prompt(
-      "Set up your username to store Results:",
-      `user${Math.floor(Math.random() * 1000)}`
-    );
-    if (userName === null) {
-      userName = `user${Math.floor(Math.random() * 1000)}`;
-      alert(
-        "You did not set up a proper username, currently setting to something random(Max 8 character)"
-      );
-    }
-    setToLocalStorage("swipegame-username", userName);
-
-    if (
-      confirm(
-        "We recommend to reset your stats if you are old user, click ok to reset!"
-      )
-    ) {
-      highscore = 0;
-      correctAnswers = 0;
-      wrongAnswers = 0;
-      numberOfTimesPlayed = 0;
-
-      setToLocalStorage("swipegame_correct_answers", 0);
-      setToLocalStorage("swipegame_wrong_answers", 0);
-      setToLocalStorage("swipegame_highscore", 0);
-      setToLocalStorage("swipegame_number_of_times_played", 0);
-
-      playCountDisplay.innerText = numberOfTimesPlayed;
-      highscoreDisplay.innerText = highscore;
-      correctAnswerDisplay.innerText = correctAnswers;
-      wrongAnswerDisplay.innerText = wrongAnswers;
-    }
-  }
-
-  const getWelcomeMessage = () => {
-    const initation_message = ["Hello", "Howdy", "Welcome", "Hello There!"];
-    let index = Math.floor(Math.random() * initation_message.length);
-    document.querySelector(
-      "#welcome_message"
-    ).innerText = `${initation_message[index]}, ${userName}`;
-  };
-
-  getWelcomeMessage();
-
-  document.querySelector("#change_name").addEventListener("click", () => {
-    userName = prompt("Change your username", userName);
-    if (userName === null || userName === "") {
-      userName = getFromLocalStorage("swipegame-username");
-    } else {
-      if (userName.length > 9) {
-        userName = userName.substring(0, 8);
-      }
-      setToLocalStorage("swipegame-username", userName);
-    }
-    getWelcomeMessage();
-  });
-
   //theme
   document
     .querySelector(".toggle_button")
@@ -165,6 +104,67 @@ import "./modules/sharing.js";
         wrongAnswerDisplay.innerText = wrongAnswers;
       }
     });
+
+  //username
+  let userName = getFromLocalStorage("swipegame-username");
+
+  if (userName === "0") {
+    userName = prompt(
+      "Set up your username to store Results:",
+      `user${Math.floor(Math.random() * 1000)}`
+    );
+    if (userName === null || userName === "0") {
+      userName = `user${Math.floor(Math.random() * 1000)}`;
+      alert(
+        "You did not set up a proper username, currently setting to something random(Max 8 character)"
+      );
+    }
+    setToLocalStorage("swipegame-username", userName);
+
+    if (
+      confirm(
+        "We recommend to reset your stats if you are old user, click ok to reset!"
+      )
+    ) {
+      highscore = 0;
+      correctAnswers = 0;
+      wrongAnswers = 0;
+      numberOfTimesPlayed = 0;
+
+      setToLocalStorage("swipegame_correct_answers", 0);
+      setToLocalStorage("swipegame_wrong_answers", 0);
+      setToLocalStorage("swipegame_highscore", 0);
+      setToLocalStorage("swipegame_number_of_times_played", 0);
+
+      playCountDisplay.innerText = numberOfTimesPlayed;
+      highscoreDisplay.innerText = highscore;
+      correctAnswerDisplay.innerText = correctAnswers;
+      wrongAnswerDisplay.innerText = wrongAnswers;
+    }
+  }
+
+  const getWelcomeMessage = () => {
+    const initation_message = ["Hello", "Howdy", "Welcome", "Hello There!"];
+    let index = Math.floor(Math.random() * initation_message.length);
+    document.querySelector(
+      "#welcome_message"
+    ).innerText = `${initation_message[index]}, ${userName}`;
+  };
+
+  getWelcomeMessage();
+
+  document.querySelector("#change_name").addEventListener("click", () => {
+    userName = prompt("Change your username", userName);
+    if (userName === null || userName === "" || userName === "0") {
+      userName = getFromLocalStorage("swipegame-username");
+    } else {
+      if (userName.length > 9) {
+        userName = userName.substring(0, 8);
+      }
+      setToLocalStorage("swipegame-username", userName);
+    }
+    getWelcomeMessage();
+  });
 
   //everything related to installation
   const installButton = document.querySelector("#install_button");
