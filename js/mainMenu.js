@@ -21,10 +21,31 @@ import "./modules/sharing.js";
     if (userName === null) {
       userName = `user${Math.floor(Math.random() * 1000)}`;
       alert(
-        "You did not set up a proper username, currently setting to something random"
+        "You did not set up a proper username, currently setting to something random(Max 8 character)"
       );
     }
     setToLocalStorage("swipegame-username", userName);
+
+    if (
+      confirm(
+        "We recommend to reset your stats if you are old user, click ok to reset!"
+      )
+    ) {
+      highscore = 0;
+      correctAnswers = 0;
+      wrongAnswers = 0;
+      numberOfTimesPlayed = 0;
+
+      setToLocalStorage("swipegame_correct_answers", 0);
+      setToLocalStorage("swipegame_wrong_answers", 0);
+      setToLocalStorage("swipegame_highscore", 0);
+      setToLocalStorage("swipegame_number_of_times_played", 0);
+
+      playCountDisplay.innerText = numberOfTimesPlayed;
+      highscoreDisplay.innerText = highscore;
+      correctAnswerDisplay.innerText = correctAnswers;
+      wrongAnswerDisplay.innerText = wrongAnswers;
+    }
   }
 
   const getWelcomeMessage = () => {
@@ -32,7 +53,7 @@ import "./modules/sharing.js";
     let index = Math.floor(Math.random() * initation_message.length);
     document.querySelector(
       "#welcome_message"
-    ).innerText = `${initation_message[index]} ${userName}`;
+    ).innerText = `${initation_message[index]}, ${userName}`;
   };
 
   getWelcomeMessage();
@@ -42,6 +63,9 @@ import "./modules/sharing.js";
     if (userName === null || userName === "") {
       userName = getFromLocalStorage("swipegame-username");
     } else {
+      if (userName.length > 9) {
+        userName = userName.substring(0, 8);
+      }
       setToLocalStorage("swipegame-username", userName);
     }
     getWelcomeMessage();
