@@ -106,41 +106,24 @@ import "./modules/sharing.js";
     });
 
   //username
+  const dialog_box = document.getElementById("name_dialog");
+  const dialog_form = document.getElementById('dialog_form');
+  const dialog_form_input = document.getElementById("username");
   let userName = getFromLocalStorage("swipegame-username");
 
-  if (userName === "0") {
-    userName = prompt(
-      "Set up your username to store Results:",
-      `user${Math.floor(Math.random() * 1000)}`
-    );
-    if (userName === null || userName === "0") {
-      userName = `user${Math.floor(Math.random() * 1000)}`;
-      alert(
-        "You did not set up a proper username, currently setting to something random(Max 8 character)"
-      );
-    }
+  const setUsername = (name) => {
+    dialog_form_input.value = name;
+  }
+
+  dialog_form.addEventListener("submit", function(e){
+    userName = this.username.value;
     setToLocalStorage("swipegame-username", userName);
+    getWelcomeMessage();
+  })
 
-    if (
-      confirm(
-        "We recommend to reset your stats if you are old user, click ok to reset!"
-      )
-    ) {
-      highscore = 0;
-      correctAnswers = 0;
-      wrongAnswers = 0;
-      numberOfTimesPlayed = 0;
-
-      setToLocalStorage("swipegame_correct_answers", 0);
-      setToLocalStorage("swipegame_wrong_answers", 0);
-      setToLocalStorage("swipegame_highscore", 0);
-      setToLocalStorage("swipegame_number_of_times_played", 0);
-
-      playCountDisplay.innerText = numberOfTimesPlayed;
-      highscoreDisplay.innerText = highscore;
-      correctAnswerDisplay.innerText = correctAnswers;
-      wrongAnswerDisplay.innerText = wrongAnswers;
-    }
+  if (userName === "0") {
+    setUsername("User" + Math.random() * 899 + 100);
+    dialog_box.showModal();
   }
 
   const getWelcomeMessage = () => {
@@ -154,16 +137,8 @@ import "./modules/sharing.js";
   getWelcomeMessage();
 
   document.querySelector("#change_name").addEventListener("click", () => {
-    userName = prompt("Change your username", userName);
-    if (userName === null || userName === "" || userName === "0") {
-      userName = getFromLocalStorage("swipegame-username");
-    } else {
-      if (userName.length > 9) {
-        userName = userName.substring(0, 8);
-      }
-      setToLocalStorage("swipegame-username", userName);
-    }
-    getWelcomeMessage();
+    setUsername(userName);
+    dialog_box.showModal();
   });
 
   //everything related to installation

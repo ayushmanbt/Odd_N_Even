@@ -60,6 +60,17 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
+
+    <dialog id="name_dialog">
+      <form id="dialog_form" method="dialog">
+        <div>
+          <label for="username">And what might be your name adventurer?</label>
+          <input type="text" name="username" autofocus autocomplete="off" id="username" required>
+        </div>
+        <button type="submit" autofocus>Change Name</button>
+      </form>
+    </dialog>
+
     <div id="stats" class="full_screen_items">
       <h2>Stats and Leaderboard</h2>
       <p>Here are some stats, let's admit who doesn't love stats</p>
@@ -77,11 +88,11 @@
           <span id="wrong_answer_display"></span>
         </li>
 
-        <li>
+        <!-- <li>
           <a href="/leaderboard.html" class="cta_button gamepage_leaderboard">
             Leaderboard
           </a>
-        </li>
+        </li> -->
       </ul>
 
       <div class="buttons_holder">
@@ -177,14 +188,14 @@
 
       <h2 id="welcome_message"></h2>
 
-      <div class="buttons_holder">
+      <!-- <div class="buttons_holder"> -->
         <button class="cta_button" id="change_name">
           Change Name
         </button>
-        <a href="/leaderboard.html" class="cta_button">
+        <!-- <a href="/leaderboard.html" class="cta_button">
           Leaderboard
-        </a>
-      </div>
+        </a> -->
+      <!-- </div> -->
 
       <div class="buttons_holder">
         <a class="pause_button" href="./game.html"
