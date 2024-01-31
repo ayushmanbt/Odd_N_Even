@@ -339,8 +339,8 @@ import "./modules/sharing.js";
 
   //keyboard inputs
   document.onkeydown = (e) => {
-    if (e.keyCode == "37") answerHandle(ANSWER_OPTIONS.left);
-    else if (e.keyCode == "39") answerHandle(ANSWER_OPTIONS.right);
+    if (e.key == "ArrowLeft") answerHandle(ANSWER_OPTIONS.left);
+    else if (e.key == "ArrowRight") answerHandle(ANSWER_OPTIONS.right);
   };
 
   //click inputs
