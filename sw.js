@@ -1,4 +1,4 @@
-const STATIC_CACHE_NAME = "oddneven-v2.0.4";
+const STATIC_CACHE_NAME = "oddneven-v2.0.5";
 
 const assets = [
   "/",

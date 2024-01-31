@@ -109,6 +109,7 @@ import "./modules/sharing.js";
   const dialog_box = document.getElementById("name_dialog");
   const dialog_form = document.getElementById('dialog_form');
   const dialog_form_input = document.getElementById("username");
+  const cancelDialogBox = document.getElementById("canceldialog")
   let userName = getFromLocalStorage("swipegame-username");
 
   const setUsername = (name) => {
@@ -117,12 +118,14 @@ import "./modules/sharing.js";
 
   dialog_form.addEventListener("submit", function(e){
     userName = this.username.value;
+    cancelDialogBox.style.display == "none" ? cancelDialogBox.style.display = "block" : null;
     setToLocalStorage("swipegame-username", userName);
     getWelcomeMessage();
   })
 
   if (userName === "0") {
-    setUsername("User" + Math.random() * 899 + 100);
+    setUsername("User" + Math.floor(Math.random() * 300 + 1));
+    cancelDialogBox.style.display = "none";
     dialog_box.showModal();
   }
 
@@ -140,6 +143,12 @@ import "./modules/sharing.js";
     setUsername(userName);
     dialog_box.showModal();
   });
+
+
+  
+  cancelDialogBox.addEventListener("click", () => {
+    dialog_box.close();
+  })
 
   //everything related to installation
   const installButton = document.querySelector("#install_button");

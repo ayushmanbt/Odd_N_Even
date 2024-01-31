@@ -104,9 +104,9 @@ dialog{
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);  
-  padding: 10px;
+  padding: 10px 15px;
   background-color: #001f1d;
-  box-shadow: 0px 0px 10px 10px rgba(255, 242, 54, 0.753);
+  border: 1px solid var(--pause-button-hover);
 }
 
 dialog *{
@@ -116,7 +116,7 @@ dialog *{
 
 dialog label{
   color: #fcfcfc;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 }
 
@@ -127,12 +127,44 @@ dialog button{
   padding: 5px 10px;
 }
 
+@media(min-width: 750px) {
+  dialog .form-buttons{
+    display: flex;
+    gap: 20px;
+  }
+}
+
 dialog button{
   cursor: pointer;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+dialog button.submit{
+  background-color: #cecef6;
+}
+
+dialog button.submit:hover{
+  background-color: #e7e7f4;
+  
+}
+
+dialog button.cancel{
+  background-color: #fb5555;
+  color: white;
+ 
+}
+
+
+dialog button.cancel:hover{
+  background-color: #c32424;
 }
 
 dialog::backdrop{
-  background-color: rgba(6, 0, 29, 0.788);
+  background-color: rgba(0, 0, 10, 0.5);
+  backdrop-filter: blur(15px);
 }
 
 .full_screen_items {
@@ -285,6 +317,7 @@ nav h2 {
   align-items: center;
   height: 90%;
 }
+
 
 .number {
   color: var(--text-color-primary);
@@ -760,7 +793,7 @@ nav h2 {
   .titleImage {
     display: block;
     width: 60%;
-    max-width: 512px;
+    max-width: 250px;
     margin: 20px auto;
   }
   

@@ -67,7 +67,10 @@
           <label for="username">And what might be your name adventurer?</label>
           <input type="text" name="username" autofocus autocomplete="off" id="username" required>
         </div>
-        <button type="submit" autofocus>Change Name</button>
+        <div class="form-buttons">
+          <button type="button" class="cancel" id="canceldialog">Cancel</button>
+          <button type="submit" class="submit" autofocus>Change Name</button>
+        </div>
       </form>
     </dialog>
 
@@ -180,6 +183,7 @@
       </div>
     </nav>
     <div class="container">
+      
       <img
         src="./images/bare_logo.png"
         alt="Odd N Even Logo"
